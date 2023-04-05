@@ -2,11 +2,9 @@ import os
 import numpy as np
 
 
-def evaluate_metrics(model, train_data, test_data, metrics):
+def evaluate_metrics(train_data, test_data, sim_matrix, metrics):
     print(f'Evaluating metrics {metrics} ...')
 
-    user_embs = model.user_weights
-    item_embs = model.item_weights
     train_items_dic = train_data.user_items_dic
     test_items_dic = test_data.user_items_dic
     test_user_ids = list(test_data.user_items_dic.keys())
@@ -19,8 +17,6 @@ def evaluate_metrics(model, train_data, test_data, metrics):
         except:
             raise NotImplementedError('metrics={} not implemented.'.format(metric))
     
-    sim_matrix = np.dot(user_embs, item_embs.T)
-
     # for i, test_user_id in enumerate(test_user_ids):
     for test_user_id in test_user_ids:
         train_items = train_items_dic[test_user_id]

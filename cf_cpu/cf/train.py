@@ -18,3 +18,7 @@ class Engine(CPPBase):
     def train_one_epoch(self):
         loss = self.c_instance.train_one_epoch()
         return loss
+
+    def evaluate0(self):
+        sim_matrix = self.c_instance.evaluate0()
+        return sim_matrix

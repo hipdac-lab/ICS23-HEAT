@@ -17,16 +17,14 @@ class ClickDataset(Dataset):
         self.file_path = file_path
         self.user_items_dic = {}
         self.user_item_ids = []
-        self.num_negs = config.num_negs
-        self.en_his = config.en_his
-        self.max_his = config.max_his
-        self.his_items = None
-        self.masks = None
-
         self.user_ids_dic = {}
         self.item_ids_dic = {}
         self.num_users = 0
         self.num_items = 0
+
+        self.max_his = config.max_his
+        self.his_items = None
+        self.masks = None
 
         with open(file_path, mode='r') as in_file:
             lines = in_file.readlines()
@@ -42,7 +40,6 @@ class ClickDataset(Dataset):
                 if user_id not in self.user_ids_dic:
                     self.user_ids_dic[user_id] = user_id
 
-                # self.user_items_dic[user_id] = set(items)
                 self.user_items_dic[user_id] = items
 
                 if len(items) >= self.max_his:
@@ -67,7 +64,6 @@ class ClickDataset(Dataset):
                                 
                     self.user_item_ids.append([user_id, item])
 
-        # self.item_corpus = set(self.item_ids_dic.keys())
         self.gen_dataset_info()
 
         if 'train' in file_path:

@@ -28,7 +28,7 @@ if __name__ == "__main__":
 
     cf_config = CFConfig(emb_dim=model_config['embedding_dim'], num_negs=model_config['num_negs'], max_his=model_config['max_his'], neg_sampler=model_config['neg_sampler'], 
         tile_size=model_config['tile_size'], refresh_interval=model_config['refresh_interval'], l2=model_config['embedding_regularizer'], clip_val=model_config['clip_val'], 
-        l_r=model_config['learning_rate'])
+        milestones=model_config['milestones'], l_r=model_config['learning_rate'])
 
     train_file = os.path.join(dataset_config['data_dir'], dataset_config['train_data'])
     train_data = ClickDataset(train_file, separator=dataset_config['separator'], config=cf_config)
@@ -43,6 +43,7 @@ if __name__ == "__main__":
     model.init_c_instance(cf_config)
     engine = Engine(train_data, aggregator_weights, model, cf_config)
 
+    eval_interval = model_config['eval_interval']
     for epoch in range(model_config['epochs']):
         start_time = time.time()
 
@@ -51,10 +52,14 @@ if __name__ == "__main__":
         epoch_time = time.time() - start_time
         print(f'epoch: {epoch}; loss: {epoch_loss}; epoch_time: {epoch_time}')
 
-        if epoch > 0 and epoch % model_config['eval_interval'] == 0:
+        if epoch > 0 and epoch % eval_interval == 0:
             print('--- Start evaluation ---')
             model.eval()
             with torch.no_grad():
                 eva_metrics = ['Recall(k=20)']
-                metrics.evaluate_metrics(model, train_data, test_data, eva_metrics)
+                sim_matrix = engine.evaluate0()
+                print(f'sim_matrix shape: {np.shape(sim_matrix)} !!! ')
+
+                # metrics.evaluate_metrics(train_data, test_data, sim_matrix, eva_metrics)
+
 
