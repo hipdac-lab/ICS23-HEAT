@@ -1,0 +1,3 @@
+[submodule "cf_cpu/extern"]
+	path = cf_cpu/extern
+	url = https://gitlab.com/libeigen/eigen.git
