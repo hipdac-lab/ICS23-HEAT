@@ -19,7 +19,18 @@ Install Python3, CMake
     pip install tqdm==4.62.2
 ```
 
-### Step 2: Build HEAT
+### Step 2: Clone HEAT and build dependency
+```
+    git clone https://github.com/hipdac-lab/HEAT.git
+    git submodule update --init --recursive
+    cd cf_cpu/extern/pybind11
+    cd build
+    cmake ..
+    make check -j 4
+```
+
+### Step 3: Build HEAT
+Please firt set compiler, CC and CXX. 
 ```
     cd cf_cpu
     mkdir build
@@ -29,7 +40,13 @@ Install Python3, CMake
     cp .xx.so ../cf/
 ```
 
-### Step 3: Run HEAT
+### Step 4: Git datasets
+```
+    git clone https://github.com/kuandeng/LightGCN.git
+```
+
+### Step 5: Run HEAT
+Change data path in config file to LightGCN/Data
 ```
     cd cf_cpu/cf
     python main.py --config ./benchmarks/AmazonBooks/MF_CCL/configs/config0.yaml
