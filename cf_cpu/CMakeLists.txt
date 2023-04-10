@@ -39,7 +39,7 @@ file(GLOB CF_SOURCES
     )
 
 find_package(Eigen3 REQUIRED)
-set(EIGEN3_INCLUDE_DIR extern/eigen-3.4.0)
+set(EIGEN3_INCLUDE_DIR extern/eigen)
 include_directories(${EIGEN3_INCLUDE_DIR})
 
 add_library(cf ${CF_SOURCES})

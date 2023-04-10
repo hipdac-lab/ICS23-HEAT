@@ -22,8 +22,10 @@ Install Python3, CMake
 ### Step 2: Clone HEAT and build dependency
 ```
     git clone https://github.com/hipdac-lab/HEAT.git
+    cd HEAT
     git submodule update --init --recursive
     cd cf_cpu/extern/pybind11
+    mkdir build
     cd build
     cmake ..
     make check -j 4
