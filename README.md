@@ -1,12 +1,18 @@
-# HEAT user guide
+<h3 align="center"><img src="https://user-images.githubusercontent.com/5705572/231052807-a41e7543-28f6-4405-b4de-8ee9b136c6be.gif" width="150"></h3>
 
-## Code structure
+<h3 align="center">
+A High-Performance Training System for Collaborative Filtering Based Recommendation on CPUs
+</h3>
+
+HEAT is a <ins>H</ins>ighly <ins>E</ins>fficient and <ins>A</ins>ffordable <ins>T</ins>raining system designed for collaborative filtering-based recommendations on multi-core CPUs, utilizing the SimpleX approach [1]. The system incorporates three main optimizations: (1) Tiling the embedding matrix to enhance data locality and minimize cache misses, thereby reducing read latency; (2) Streamlining stochastic gradient descent (SGD) with sampling by parallelizing vector products, specifically the similarity computation, instead of matrix-matrix multiplications, in order to eliminate memory copies for matrix data preparation; and (3) Aggressively reusing intermediate results from the forward phase during the backward phase to mitigate redundant computation. For more information, please refer to our [technical paper](https://eecs.wsu.edu/~dtao/paper/ICS23-HEAT.pdf) [2].
+
+## Code Structure
 ```
-    The C++ backend is in cf_cpu/src. The Python frontend is in the cf_cpu/cf.
+    HEAT's C++ backend is in cf_cpu/src, while its Python frontend is in the cf_cpu/cf. 
     We use CMake to build C++ backend into .so shared library, and import the library into Python frontend. 
 ```
 
-## Build Instructions
+## Build and Test
 
 ### Step 1: Install dependencies
 Install Python3, CMake
@@ -62,3 +68,7 @@ Finally, run the tests:
     python main.py --config ./benchmarks/Yelp18/MF_CCL/configs/config0.yaml
     python main.py --config ./benchmarks/Gowalla/MF_CCL/configs/config0.yaml
 ```
+
+## References
+- [1] Kelong Mao, Jieming Zhu, Jinpeng Wang, Quanyu Dai, Zhenhua Dong, Xi Xiao, and Xiuqiang He. "SimpleX: A simple and strong baseline for collaborative filtering." In Proceedings of the 30th ACM International Conference on Information & Knowledge Management, pp. 1243-1252. 2021.
+- [2] Chengming Zhang, Shaden Smith, Baixi Sun, Jiannan Tian, Jonathan Soifer, Xiaodong Yu, Shuaiwen Leon Song, Yuxiong He, Dingwen Tao. "HEAT: A Highly Efficient and Affordable Training System for Collaborative Filtering Based Recommendation on Multi-core CPUs." In Proceedings of the 37th ACM International Conference on Supercomputing, pp. xx-xx. 2023.
