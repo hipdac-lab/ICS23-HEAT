@@ -19,7 +19,8 @@ Install Python3, CMake
     pip install tqdm==4.62.2
 ```
 
-### Step 2: Clone HEAT and build dependency
+### Step 2: Clone HEAT and build pybind and eigen dependencies
+Please first set compiler, by export CC and CXX.
 ```
     git clone https://github.com/hipdac-lab/HEAT.git
     cd HEAT
@@ -28,27 +29,33 @@ Install Python3, CMake
     mkdir build
     cd build
     cmake ..
-    make check -j 4
+    make check -j
+    cd ../../eigen/
+    mkdir build
+    cd build/
+    cmake ..
 ```
 
 ### Step 3: Build HEAT
-Please firt set compiler, CC and CXX. 
 ```
-    cd cf_cpu
+    cd ../../../ #go to HEAT/cf_cpu folder
     mkdir build
     cd build
     cmake ..
     make -j
-    cp .xx.so ../cf/
+    cp *.so ../cf/
 ```
 
-### Step 4: Git datasets
+### Step 4: Download sample datasets
 ```
+    cd ../../ #go to HEAT root folder
     git clone https://github.com/kuandeng/LightGCN.git
 ```
 
 ### Step 5: Run HEAT
-Change data path in config file to LightGCN/Data
+Change ```data_dir``` in the below three config0.yaml files to their corresponding data paths, e.g., ```HEAT/LightGCN/Data/amazon-book```, ```HEAT/LightGCN/Data/yelp2018```, and ```HEAT/LightGCN/Data/gowalla```, respectively.
+
+Finally, run the tests:
 ```
     cd cf_cpu/cf
     python main.py --config ./benchmarks/AmazonBooks/MF_CCL/configs/config0.yaml
